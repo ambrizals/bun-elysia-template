@@ -5,4 +5,4 @@ import { databaseEnvSchema } from "@/config/env/schema/database.schema";
 
 const envSchema = t.Composite([baseSchema, databaseEnvSchema]);
 
-export const ENV = typeCompiler(envSchema, Bun.env);
+export const ENV = typeCompiler(envSchema, process.env);

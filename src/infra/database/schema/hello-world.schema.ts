@@ -5,3 +5,5 @@ export const helloWorld = pgTable("hello_world", {
   name: text("name").notNull(),
   description: text("description").notNull(),
 });
+
+export type HelloWorld = typeof helloWorld.$inferSelect;

@@ -1,6 +1,6 @@
 import { Repository } from "@/modules/core/repository";
-import type { CreateHelloWorldInputPayload } from "../usecases/create-hello-world/create-hello-world.dto";
 import { helloWorld } from "@/infra/database/schema";
+import type { CreateHelloWorldInputPayload } from "@/modules/v1/hello-world/usecases/create-hello-world";
 
 export class HelloWorldRepository extends Repository {
   public async getHelloWorld() {
