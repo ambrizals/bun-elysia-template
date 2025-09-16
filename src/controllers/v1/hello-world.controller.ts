@@ -3,29 +3,44 @@ import {
   CreateHelloWorldInputPayloadSchema,
   CreateHelloWorldResBodySchema,
 } from "@/modules/v1/hello-world/usecases/create-hello-world";
+import { GetHelloWorldResBodySchema } from "@/modules/v1/hello-world/usecases/hello-world";
 import { Elysia } from "elysia";
+import { getHelloWorldUseCase } from "@/modules/v1/hello-world/deps";
 
-export const helloWorldController = new Elysia()
-  .get("/hello", () => "Hello World", {
-    detail: {
-      tags: ["Hello World"],
-      summary: "Hello World",
-      description: "Hello World",
+export const helloWorldController = new Elysia({
+  prefix: "/hello",
+  tags: ["Hello World"],
+})
+  .get(
+    "/",
+    async () => {
+      const result = await getHelloWorldUseCase.execute();
+      return result;
     },
-  })
+    {
+      detail: {
+        summary: "Hello World",
+        description: "Hello World",
+      },
+      response: {
+        200: GetHelloWorldResBodySchema,
+      },
+    }
+  )
   .post(
-    "/hello",
+    "/",
     async ({ body }) => {
       const result = await createHelloWorldUseCase.execute(body);
       return result;
     },
     {
       detail: {
-        tags: ["Hello World"],
         summary: "Create Hello World",
         description: "Create Hello World",
       },
       body: CreateHelloWorldInputPayloadSchema,
-      response: CreateHelloWorldResBodySchema,
+      response: {
+        200: CreateHelloWorldResBodySchema,
+      },
     }
   );
