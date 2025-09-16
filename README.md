@@ -47,6 +47,7 @@ A modern, type-safe API template built with [Bun](https://bun.sh/) and [Elysia.j
 ```
 .
 ├── src/
+│   ├── common/         # Common code
 │   ├── config/         # Configuration files
 │   ├── controllers/    # Request handlers
 │   ├── infra/          # Infrastructure code (database, cache, etc.)
@@ -79,10 +80,6 @@ When the development server is running, you can access:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
