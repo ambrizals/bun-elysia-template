@@ -1,5 +1,5 @@
 import { t } from "elysia";
-import { typeCompiler } from "@/utils/validator";
+import { typeCompiler } from "@/common/validation/utils/type-compiler";
 import { baseSchema } from "@/config/env/schema/base.schema";
 import { databaseEnvSchema } from "@/config/env/schema/database.schema";
 

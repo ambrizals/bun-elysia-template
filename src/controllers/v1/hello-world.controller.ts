@@ -6,6 +6,7 @@ import {
 import { GetHelloWorldResBodySchema } from "@/modules/v1/hello-world/usecases/hello-world";
 import { Elysia } from "elysia";
 import { getHelloWorldUseCase } from "@/modules/v1/hello-world/deps";
+import { asApiSuccessResponse, makeSuccess } from "@/common/api-response";
 
 export const helloWorldController = new Elysia({
   prefix: "/hello",
@@ -15,7 +16,7 @@ export const helloWorldController = new Elysia({
     "/",
     async () => {
       const result = await getHelloWorldUseCase.execute();
-      return result;
+      return makeSuccess(result);
     },
     {
       detail: {
@@ -23,7 +24,7 @@ export const helloWorldController = new Elysia({
         description: "Hello World",
       },
       response: {
-        200: GetHelloWorldResBodySchema,
+        200: asApiSuccessResponse(GetHelloWorldResBodySchema),
       },
     }
   )

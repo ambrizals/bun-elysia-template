@@ -7,8 +7,8 @@ describe("Hello World", () => {
       .handle(new Request("http://localhost/v1/hello"))
       .then((res) => res.json() as Record<string, any>);
 
-    expect(response).toHaveProperty("message");
-    expect(response?.message).toEqual("Hello World");
+    expect(response).toHaveProperty("payload");
+    expect(response?.payload?.message).toEqual("Hello World");
   });
 
   it("Should fail because property was invalid when create hello world message", async () => {

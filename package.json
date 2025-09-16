@@ -4,7 +4,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/main.ts",
-    "db.generate": "drizzle-kit generate"
+    "db.generate": "drizzle-kit generate",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@elysiajs/openapi": "^1.3.12",
@@ -14,9 +16,10 @@
     "elysia": "latest"
   },
   "devDependencies": {
+    "@types/bun": "^1.2.21",
     "bun-types": "latest",
     "drizzle-kit": "^0.31.4",
-    "@types/bun": "^1.2.21"
+    "husky": "^9.1.7"
   },
   "module": "src/index.js",
   "packageManager": "bun@1.2.8"
