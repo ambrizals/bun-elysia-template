@@ -8,6 +8,12 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    env:
+      DB_HOST: ${{ secrets.DB_HOST != '' && secrets.DB_HOST || 'localhost' }}
+      DB_PORT: ${{ secrets.DB_PORT != '' && secrets.DB_PORT || '5432' }}
+      DB_USER: ${{ secrets.DB_USER != '' && secrets.DB_USER || 'postgres' }}
+      DB_PWD:  ${{ secrets.DB_PWD  != '' && secrets.DB_PWD  || 'postgres' }}
+      DB_NAME: ${{ secrets.DB_NAME != '' && secrets.DB_NAME || 'postgres' }}
 
     steps:
       - name: Checkout repository
