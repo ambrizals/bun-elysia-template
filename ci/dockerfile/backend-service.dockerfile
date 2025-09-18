@@ -12,6 +12,10 @@ RUN bun run build
 
 # ---- Runtime stage ----
 FROM alpine:3.20
+
+# Install g++ to get the required C++ libraries
+RUN apk add --no-cache g++
+
 # Create non-root user
 RUN addgroup -S app && adduser -S app -G app
 WORKDIR /app

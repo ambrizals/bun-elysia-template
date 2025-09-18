@@ -1,0 +1,12 @@
+services:
+  backend:
+    image: test-bun ## TODO: change it to ghcr.io/${{ github.repository }}:latest or other image endpoint
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=localhost
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PWD=postgres
+      - DB_NAME=postgres
+# We can add more like database, redis or anything else
