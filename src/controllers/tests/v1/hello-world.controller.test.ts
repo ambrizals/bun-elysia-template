@@ -1,9 +1,9 @@
-import { baseApp } from "@/app";
+import { app } from "@/main";
 import { describe, expect, it } from "bun:test";
 
 describe("Hello World", () => {
   it("Should return hello world", async () => {
-    const response = await baseApp
+    const response = await app
       .handle(new Request("http://localhost/v1/hello"))
       .then((res) => res.json() as Record<string, any>);
 
@@ -12,7 +12,7 @@ describe("Hello World", () => {
   });
 
   it("Should fail because property was invalid when create hello world message", async () => {
-    const response = await baseApp.handle(
+    const response = await app.handle(
       new Request("http://localhost/v1/hello", {
         method: "POST",
         body: JSON.stringify({
@@ -21,6 +21,8 @@ describe("Hello World", () => {
       })
     );
 
-    expect(response.status).toEqual(422);
+    const body = (await response.json()) as Record<string, unknown>;
+    expect(body.errors).toBeArray();
+    expect(response.status).toEqual(400);
   });
 });

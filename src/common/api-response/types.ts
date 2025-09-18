@@ -5,12 +5,17 @@ export interface ApiResponse<T = null, U = never> {
   payload: T;
 
   /**
+   * @description Request ID
+   */
+  requestId: string;
+
+  /**
    * @description Response errors
    */
   errors?: U[];
 
   /**
-   * @description Request ID
+   * @description Response message
    */
-  requestId: string;
+  message?: string;
 }
