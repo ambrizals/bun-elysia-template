@@ -56,3 +56,44 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Retain only 2 most recent GHCR versions (newest + one previous)
+        env:
+          GH_TOKEN: ${{ secrets.SECRET_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Determine whether OWNER is a User or Organization
+          OWNER_TYPE=$(gh api -H "Accept: application/vnd.github+json" /users/${OWNER} --jq .type)
+          if [ "$OWNER_TYPE" = "Organization" ]; then
+            OWNER_PATH="/orgs/${OWNER}"
+          else
+            OWNER_PATH="/users/${OWNER}"
+          fi
+
+          # Package name for GHCR is the repository name (lowercase)
+          REPO_NAME=${REPO#${OWNER}/}
+          PKG_NAME=$(echo "$REPO_NAME" | tr '[:upper:]' '[:lower:]')
+
+          echo "Listing container versions for ${OWNER}/${PKG_NAME}..."
+          gh api -H "Accept: application/vnd.github+json" \
+            ${OWNER_PATH}/packages/container/${PKG_NAME}/versions?per_page=100 > versions.json
+
+          # Keep only the two most recent versions by created_at (newest and one previous)
+          IDS_TO_DELETE=$(jq -r '
+            sort_by(.created_at)
+            | .[0:-2]
+            | .[].id // empty
+          ' versions.json)
+
+          if [ -z "$IDS_TO_DELETE" ]; then
+            echo "Nothing to delete (<= 2 versions present)."
+            exit 0
+          fi
+
+          echo "Deleting old versions (keeping 2 newest): $IDS_TO_DELETE"
+          for id in $IDS_TO_DELETE; do
+            gh api -X DELETE -H "Accept: application/vnd.github+json" \
+              ${OWNER_PATH}/packages/container/${PKG_NAME}/versions/${id}
+          done
