@@ -85,4 +85,4 @@ When the development server is running, you can access:
 
 - [Elysia.js](https://elysiajs.com/) for the amazing framework
 - [Bun](https://bun.sh/) for the fast JavaScript runtime
-- All contributors who have helped shape this project
+- All contributors who have helped shape this project especially for darwin.
